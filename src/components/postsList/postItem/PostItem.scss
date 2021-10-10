@@ -1,0 +1,14 @@
+.post-item {
+    height: 100%;
+
+    .MuiCard-root {
+        height: 100%;
+        border-radius: 4px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        background-color: #d1e4f6;
+
+        .MuiCardContent-root {
+            height: 100%;
+        }
+    }
+}    
