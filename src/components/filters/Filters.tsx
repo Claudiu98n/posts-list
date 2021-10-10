@@ -34,7 +34,7 @@ const Filters = ({ setActiveSortingOption, activeSortingOption, count, currentPa
         page={currentPage}
         onChange={(_, value) => paginate(value)}
       />
-    </div >
+    </div>
   );
 };
 

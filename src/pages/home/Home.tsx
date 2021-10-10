@@ -47,27 +47,20 @@ const Home = () => {
 
   // sorting
   const sort = (activeSortingOption: number): Post[] => {
-    let sortedPosts: Post[];
-
     switch (activeSortingOption) {
       case 0:
-        sortedPosts = [...posts];
-        break;
+        return [...posts];
       case 1:
-        sortedPosts = [...posts].sort((a: Post, b: Post): number =>
+        return [...posts].sort((a: Post, b: Post): number =>
           a.title.localeCompare(b.title)
         );
-        break;
       case 2:
-        sortedPosts = [...posts].sort((a: Post, b: Post): number =>
+        return [...posts].sort((a: Post, b: Post): number =>
           b.title.localeCompare(a.title)
         );
-        break;
       default:
-        sortedPosts = [...posts];
+        return [...posts];
     }
-
-    return sortedPosts;
   };
 
   // get current posts
