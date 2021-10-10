@@ -12,14 +12,13 @@ import Header from '../../components/header/Header';
 import Filters from '../../components/filters/Filters';
 
 // interfaces
-import { Post, SortingOption } from '../../interfaces/interfaces';
+import { Post } from '../../interfaces/interfaces';
 
 // styling
 import './Home.scss';
 
 const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sortedPosts, setSortedPosts] = useState<Post[]>([]);
   const [activeSortingOption, setActiveSortingOption] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -34,10 +33,7 @@ const Home = () => {
     };
 
     fetchPosts()
-      .then(posts => {
-        setPosts(posts.data);
-        setSortedPosts(posts.data);
-      })
+      .then(posts => setPosts(posts.data))
       .catch(err => console.log(err.message))
       .finally(() => setLoading(false));
   }, []);
@@ -50,38 +46,35 @@ const Home = () => {
   };
 
   // sorting
-  const sort = (activeSortingOption: SortingOption): void => {
+  const sort = (activeSortingOption: number): Post[] => {
     let sortedPosts: Post[];
 
-    switch (activeSortingOption.value) {
+    switch (activeSortingOption) {
       case 0:
+        sortedPosts = [...posts];
+        break;
+      case 1:
         sortedPosts = [...posts].sort((a: Post, b: Post): number =>
           a.title.localeCompare(b.title)
         );
         break;
-      case 1:
+      case 2:
         sortedPosts = [...posts].sort((a: Post, b: Post): number =>
           b.title.localeCompare(a.title)
         );
-        break;
-      case 2:
-        sortedPosts = [...posts];
         break;
       default:
         sortedPosts = [...posts];
     }
 
-    setSortedPosts(sortedPosts);
-    setActiveSortingOption(
-      activeSortingOption.value === 2 ? 0 : activeSortingOption.value + 1
-    );
+    return sortedPosts;
   };
 
   // get current posts
   const postsPerPage: number = 20;
   const lastPostIndex: number = currentPage * postsPerPage;
   const firstPostIndex: number = lastPostIndex - postsPerPage;
-  const currentPosts: Post[] = sortedPosts.slice(firstPostIndex, lastPostIndex);
+  const currentPosts: Post[] = sort(activeSortingOption).slice(firstPostIndex, lastPostIndex);
   const count: number = Math.floor(posts.length / postsPerPage);
 
   // conditionally render loader or posts list
@@ -104,11 +97,11 @@ const Home = () => {
     <Container className="wrapper" maxWidth="xl">
       <Header />
       <Filters
+        setActiveSortingOption={setActiveSortingOption}
+        activeSortingOption={activeSortingOption}
         count={count}
         currentPage={currentPage}
         paginate={paginate}
-        sort={sort}
-        activeSortingOption={activeSortingOption}
       />
       {toRender}
     </Container>

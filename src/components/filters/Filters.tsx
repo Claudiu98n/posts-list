@@ -8,32 +8,25 @@ import { Pagination } from '@mui/material';
 import './Filters.scss';
 
 // interface
-import { FiltersProps, SortingOption } from '../../interfaces/interfaces';
+import { FiltersProps } from '../../interfaces/interfaces';
 
-const Filters = ({ sort, activeSortingOption, count, currentPage, paginate }: FiltersProps) => {
-  const sortingOptions: SortingOption[] = [
-    {
-      label: 'Sort A - Z',
-      value: 0,
-    },
-    {
-      label: 'Sort Z - A',
-      value: 1,
-    },
-    {
-      label: 'Sort Initial order',
-      value: 2,
-    },
-  ];
+const Filters = ({ setActiveSortingOption, activeSortingOption, count, currentPage, paginate }: FiltersProps) => {
+  const sortingOptions: string[] = ['Sort A - Z', 'Sort Z - A', 'Sort Initial order'];
+
+  const chooseActiveSortingOption = (): void => {
+    setActiveSortingOption(
+      activeSortingOption === 2 ? 0 : activeSortingOption + 1
+    );
+  }
 
   return (
     <div className="filters-container">
       <Button
-        onClick={() => sort(sortingOptions[activeSortingOption])}
+        onClick={chooseActiveSortingOption}
         variant="contained"
         color="primary"
       >
-        {sortingOptions[activeSortingOption].label}
+        {sortingOptions[activeSortingOption]}
       </Button>
       <Pagination
         color="primary"
@@ -41,7 +34,7 @@ const Filters = ({ sort, activeSortingOption, count, currentPage, paginate }: Fi
         page={currentPage}
         onChange={(_, value) => paginate(value)}
       />
-    </div>
+    </div >
   );
 };
 

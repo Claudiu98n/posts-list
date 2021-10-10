@@ -5,17 +5,12 @@ export interface Post {
     body: string,
 }
 
-export interface SortingOption {
-    label: string,
-    value: number,
-}
-
 export interface PostsListProps {
-    posts: Post[]
+    posts: Post[],
 }
 
 export interface FiltersProps {
-    sort(option: SortingOption): void,
+    setActiveSortingOption: React.Dispatch<React.SetStateAction<number>>,
     activeSortingOption: number,
     count: number,
     currentPage: number,
